@@ -1,127 +1,257 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Nova Stock</title>
+```
+<title>Nova Stock</title>
 
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+```
+
 </head>
 
 <body>
 
-<header>
-    <h1>Nova Stock</h1>
-    <p>Stock & Profit Manager</p>
+<header class="app-header">
+    <div>
+        <h1>Nova Stock</h1>
+        <p>Stock & Profit Manager</p>
+    </div>
+
+```
+<div class="header-icon">📦</div>
+```
+
 </header>
 
 <main>
 
-    <!-- DASHBOARD -->
+```
+<!-- WELCOME -->
 
-    <section class="dashboard">
+<section class="welcome">
+    <div>
+        <p class="welcome-small">Welcome back 👋</p>
+        <h2>Stock Dashboard</h2>
+        <p>Manage your products and track your profit.</p>
+    </div>
+</section>
 
-        <div class="card">
+
+<!-- DASHBOARD -->
+
+<section class="dashboard">
+
+    <div class="card products-card">
+        <div class="card-icon">📦</div>
+        <div>
             <h3>Products</h3>
             <p id="totalProducts">0</p>
         </div>
+    </div>
 
-        <div class="card">
+    <div class="card stock-card">
+        <div class="card-icon">📊</div>
+        <div>
             <h3>Total Stock</h3>
             <p id="totalStock">0</p>
         </div>
+    </div>
 
-        <div class="card">
+    <div class="card sales-card">
+        <div class="card-icon">💰</div>
+        <div>
             <h3>Today's Sales</h3>
             <p id="todaySales">₹0</p>
         </div>
+    </div>
 
-        <div class="card">
+    <div class="card profit-card">
+        <div class="card-icon">📈</div>
+        <div>
             <h3>Today's Profit</h3>
             <p id="todayProfit">₹0</p>
         </div>
+    </div>
 
-        <div class="card">
+    <div class="card">
+        <div class="card-icon">🗓️</div>
+        <div>
             <h3>Monthly Profit</h3>
             <p id="monthProfit">₹0</p>
         </div>
+    </div>
 
-        <div class="card">
+    <div class="card">
+        <div class="card-icon">📅</div>
+        <div>
             <h3>Yearly Profit</h3>
             <p id="yearProfit">₹0</p>
         </div>
+    </div>
 
-    </section>
+</section>
 
 
-    <!-- ADD PRODUCT -->
+<!-- ADD PRODUCT -->
 
-    <section class="box">
+<section class="box">
 
-        <h2>Add Product</h2>
+    <div class="section-title">
+        <div>
+            <p class="section-label">INVENTORY</p>
+            <h2>Add Product</h2>
+        </div>
+
+        <span class="section-icon">➕</span>
+    </div>
+
+    <div class="form-group">
+
+        <label for="productName">Product Name</label>
 
         <input
             id="productName"
             type="text"
-            placeholder="Product name"
+            placeholder="Enter product name"
         >
 
-        <input
-            id="buyPrice"
-            type="number"
-            placeholder="Buying price"
-        >
+    </div>
 
-        <input
-            id="sellPrice"
-            type="number"
-            placeholder="Selling price"
-        >
+    <div class="form-row">
+
+        <div class="form-group">
+
+            <label for="buyPrice">Buying Price</label>
+
+            <input
+                id="buyPrice"
+                type="number"
+                placeholder="₹ 0"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="sellPrice">Selling Price</label>
+
+            <input
+                id="sellPrice"
+                type="number"
+                placeholder="₹ 0"
+            >
+
+        </div>
+
+    </div>
+
+    <div class="form-group">
+
+        <label for="stock">Stock Quantity</label>
 
         <input
             id="stock"
             type="number"
-            placeholder="Stock quantity"
+            placeholder="Enter quantity"
         >
 
-        <button onclick="addProduct()">
-            Add Product
-        </button>
+    </div>
 
-    </section>
+    <button class="primary-button" onclick="addProduct()">
+        <span>＋</span>
+        Add Product
+    </button>
+
+</section>
 
 
-    <!-- SEARCH -->
+<!-- PRODUCTS -->
 
-    <section class="box">
+<section class="box">
 
-        <h2>Products</h2>
+    <div class="section-title">
+
+        <div>
+            <p class="section-label">INVENTORY</p>
+            <h2>Products</h2>
+        </div>
+
+        <span class="section-icon">📦</span>
+
+    </div>
+
+    <div class="search-container">
+
+        <span>🔍</span>
 
         <input
             id="searchBox"
             type="text"
-            placeholder="🔍 Search product..."
+            placeholder="Search products..."
             oninput="showProducts()"
         >
 
-        <div id="productList"></div>
+    </div>
 
-    </section>
+    <div id="productList"></div>
+
+</section>
 
 
-    <!-- SALES HISTORY -->
+<!-- SALES HISTORY -->
 
-    <section class="box">
+<section class="box">
 
-        <h2>Sales History</h2>
+    <div class="section-title">
 
-        <div id="salesList"></div>
+        <div>
+            <p class="section-label">TRANSACTIONS</p>
+            <h2>Sales History</h2>
+        </div>
 
-    </section>
+        <span class="section-icon">🧾</span>
+
+    </div>
+
+    <div id="salesList"></div>
+
+</section>
+```
 
 </main>
+
+<!-- BOTTOM NAVIGATION -->
+
+<nav class="bottom-nav">
+
+```
+<a href="#top" class="nav-item active">
+    <span>⌂</span>
+    <small>Home</small>
+</a>
+
+<a href="#productList" class="nav-item">
+    <span>📦</span>
+    <small>Products</small>
+</a>
+
+<a href="#productName" class="nav-item add-nav">
+    <span>＋</span>
+    <small>Add</small>
+</a>
+
+<a href="#salesList" class="nav-item">
+    <span>🧾</span>
+    <small>Sales</small>
+</a>
+```
+
+</nav>
 
 <script src="app.js"></script>
 
