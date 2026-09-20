@@ -2,6 +2,8 @@
 // NOVA STOCK
 // =====================================
 
+// LOAD DATA
+
 let products =
     JSON.parse(localStorage.getItem("novaProducts")) || [];
 
@@ -14,17 +16,22 @@ let sales =
 // =====================================
 
 function saveProducts() {
+
     localStorage.setItem(
         "novaProducts",
         JSON.stringify(products)
     );
+
 }
 
+
 function saveSales() {
+
     localStorage.setItem(
         "novaSales",
         JSON.stringify(sales)
     );
+
 }
 
 
@@ -48,17 +55,25 @@ function addProduct() {
 
 
     if (name === "") {
+
         alert("Enter product name.");
+
         return;
     }
+
 
     if (buy <= 0 || sell <= 0) {
+
         alert("Enter valid prices.");
+
         return;
     }
 
+
     if (stock < 0) {
+
         alert("Stock cannot be negative.");
+
         return;
     }
 
@@ -82,13 +97,20 @@ function addProduct() {
 
     saveProducts();
 
+
     document.getElementById("productName").value = "";
+
     document.getElementById("buyPrice").value = "";
+
     document.getElementById("sellPrice").value = "";
+
     document.getElementById("stock").value = "";
 
+
     showProducts();
+
     updateDashboard();
+
 
     alert("Product added!");
 }
@@ -112,13 +134,14 @@ function showProducts() {
     list.innerHTML = "";
 
 
-    const filteredProducts = products.filter(function(product) {
+    const filteredProducts =
+        products.filter(function(product) {
 
-        return product.name
-            .toLowerCase()
-            .includes(search);
+            return product.name
+                .toLowerCase()
+                .includes(search);
 
-    });
+        });
 
 
     if (filteredProducts.length === 0) {
@@ -133,6 +156,7 @@ function showProducts() {
     filteredProducts.forEach(function(product) {
 
         let warning = "";
+
 
         if (product.stock <= 5) {
 
@@ -170,20 +194,24 @@ function showProducts() {
 
                 ${warning}
 
+
                 <button
                     onclick="sellProduct(${product.id})">
                     Sell
                 </button>
+
 
                 <button
                     onclick="addStock(${product.id})">
                     Add Stock
                 </button>
 
+
                 <button
                     onclick="editProduct(${product.id})">
                     Edit
                 </button>
+
 
                 <button
                     onclick="deleteProduct(${product.id})">
@@ -206,11 +234,14 @@ function sellProduct(id) {
 
     const product =
         products.find(function(p) {
+
             return p.id === id;
+
         });
 
 
     if (!product) {
+
         return;
     }
 
@@ -287,17 +318,23 @@ function sellProduct(id) {
 
 
     saveProducts();
+
     saveSales();
 
+
     showProducts();
+
     showSales();
+
     updateDashboard();
 
 
     alert(
         "Sale recorded!\n\n" +
-        "Quantity: " + quantity +
-        "\nProfit: ₹" + sale.profit
+        "Quantity: " +
+        quantity +
+        "\nProfit: ₹" +
+        sale.profit
     );
 }
 
@@ -310,11 +347,14 @@ function addStock(id) {
 
     const product =
         products.find(function(p) {
+
             return p.id === id;
+
         });
 
 
     if (!product) {
+
         return;
     }
 
@@ -344,6 +384,7 @@ function addStock(id) {
 
     saveProducts();
 
+
     showProducts();
 
     updateDashboard();
@@ -358,11 +399,14 @@ function editProduct(id) {
 
     const product =
         products.find(function(p) {
+
             return p.id === id;
+
         });
 
 
     if (!product) {
+
         return;
     }
 
@@ -374,7 +418,11 @@ function editProduct(id) {
         );
 
 
-    if (name === null || name.trim() === "") {
+    if (
+        name === null ||
+        name.trim() === ""
+    ) {
+
         return;
     }
 
@@ -397,26 +445,49 @@ function editProduct(id) {
         );
 
 
-    if (buy <= 0 || sell <= 0) {
+    const stock =
+        Number(
+            prompt(
+                "Stock quantity:",
+                product.stock
+            )
+        );
 
-        alert("Invalid price.");
+
+    if (
+        buy <= 0 ||
+        sell <= 0 ||
+        stock < 0
+    ) {
+
+        alert("Invalid product information.");
 
         return;
     }
 
 
-    product.name = name.trim();
+    product.name =
+        name.trim();
 
-    product.buy = buy;
+    product.buy =
+        buy;
 
-    product.sell = sell;
+    product.sell =
+        sell;
+
+    product.stock =
+        stock;
 
 
     saveProducts();
 
+
     showProducts();
 
     updateDashboard();
+
+
+    alert("Product updated!");
 }
 
 
@@ -428,11 +499,14 @@ function deleteProduct(id) {
 
     const product =
         products.find(function(p) {
+
             return p.id === id;
+
         });
 
 
     if (!product) {
+
         return;
     }
 
@@ -446,17 +520,21 @@ function deleteProduct(id) {
 
 
     if (!answer) {
+
         return;
     }
 
 
     products =
         products.filter(function(p) {
+
             return p.id !== id;
+
         });
 
 
     saveProducts();
+
 
     showProducts();
 
@@ -530,12 +608,51 @@ function showSales() {
 
 
 // =====================================
+// RESTART DAILY PROFIT
+// =====================================
+
+function restartDailyProfit() {
+
+    const answer =
+        confirm(
+            "Restart today's profit?\n\n" +
+            "Today's profit will become ₹0.\n" +
+            "Your sales history, monthly profit " +
+            "and yearly profit will stay safe."
+        );
+
+
+    if (!answer) {
+
+        return;
+    }
+
+
+    // Save the exact time of the reset
+
+    localStorage.setItem(
+        "novaDailyProfitReset",
+        new Date().toISOString()
+    );
+
+
+    updateDashboard();
+
+
+    alert(
+        "Today's profit has been restarted!"
+    );
+}
+
+
+// =====================================
 // DASHBOARD
 // =====================================
 
 function updateDashboard() {
 
-    const now = new Date();
+    const now =
+        new Date();
 
 
     let totalStock = 0;
@@ -549,6 +666,8 @@ function updateDashboard() {
     let yearProfit = 0;
 
 
+    // TOTAL STOCK
+
     products.forEach(function(product) {
 
         totalStock += product.stock;
@@ -556,32 +675,61 @@ function updateDashboard() {
     });
 
 
+    // DAILY RESET TIME
+
+    const resetTime =
+        localStorage.getItem(
+            "novaDailyProfitReset"
+        );
+
+
+    const resetDate =
+        resetTime
+            ? new Date(resetTime)
+            : null;
+
+
+    // CALCULATE PROFITS
+
     sales.forEach(function(sale) {
 
         const date =
             new Date(sale.date);
 
 
+        // =============================
         // TODAY
+        // =============================
 
-        if (
+        const sameDay =
 
             date.getDate() === now.getDate() &&
 
             date.getMonth() === now.getMonth() &&
 
-            date.getFullYear() === now.getFullYear()
+            date.getFullYear() === now.getFullYear();
 
-        ) {
 
-            todaySales += sale.sellingPrice;
+        const afterReset =
 
-            todayProfit += sale.profit;
+            !resetDate ||
+            date > resetDate;
+
+
+        if (sameDay && afterReset) {
+
+            todaySales +=
+                sale.sellingPrice;
+
+            todayProfit +=
+                sale.profit;
 
         }
 
 
+        // =============================
         // MONTH
+        // =============================
 
         if (
 
@@ -591,12 +739,15 @@ function updateDashboard() {
 
         ) {
 
-            monthProfit += sale.profit;
+            monthProfit +=
+                sale.profit;
 
         }
 
 
+        // =============================
         // YEAR
+        // =============================
 
         if (
 
@@ -604,21 +755,28 @@ function updateDashboard() {
 
         ) {
 
-            yearProfit += sale.profit;
+            yearProfit +=
+                sale.profit;
 
         }
 
     });
 
 
+    // =============================
+    // UPDATE DASHBOARD
+    // =============================
+
     document.getElementById(
         "totalProducts"
-    ).innerText = products.length;
+    ).innerText =
+        products.length;
 
 
     document.getElementById(
         "totalStock"
-    ).innerText = totalStock;
+    ).innerText =
+        totalStock;
 
 
     document.getElementById(
